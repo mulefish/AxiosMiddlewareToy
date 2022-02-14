@@ -1,0 +1,46 @@
+<html>
+
+<head>
+	<link rel="icon" href="data:,">
+	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+	<meta charset="utf-8" />
+	<title></title>
+</head>
+
+<body>
+	<script>
+	function getPersonA() {
+		logic('/person?firstname=Able')
+	}
+
+	function getPersonB() {
+		logic('/person?firstname=Beatrice')
+	}
+
+	function getPersonC() {
+		logic('/person?firstname=Conner')
+	}
+
+	function logic(url) {
+		const t1 = new Date().getTime()
+		axios({
+			method: 'get',
+			url: url,
+			data: {}
+		}).then(function(response) {
+			document.getElementById("output").value = JSON.stringify(response.data, null, 2)
+		}).catch(function(error) {
+			console.log(error);
+		}).then(function() {
+			const millisec = new Date().getTime() - t1;
+			document.getElementById("url").innerHTML = `   ${millisec}    ${url}`
+		})
+	}
+	</script>
+    <button onClick=getPersonA()>getPersonA</button>
+	<button onClick=getPersonB()>getPersonB</button>
+	<button onClick=getPersonC()>getPersonC</button>
+	<div id='url'></div>
+    <textarea id='output' rows=40 cols=300 value=''></textarea>
+    </body>
+</html>
