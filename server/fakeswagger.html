@@ -1,5 +1,4 @@
-<html>
-
+<!DOCTYPE html>
 <head>
 	<link rel="icon" href="data:,">
 	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -36,11 +35,38 @@
 			document.getElementById("url").innerHTML = `   ${millisec}    ${url}`
 		})
 	}
+
+	function step1_login() { 
+		const url  = "http://localhost:4000/login" 
+		const t1 = new Date().getTime()
+		axios({
+			method: 'post', 
+			url: url,
+			data: {
+				username:'Finch'
+			}
+		}).then(function(response) {
+//			document.getElementById("output").value = JSON.stringify(response.data, null, 2)
+			document.getElementById("output").value = JSON.stringify(response.data, null, 2) 
+		}).catch(function(error) {
+			console.log(error.message);
+		}).then(function() {
+			const millisec = new Date().getTime() - t1;
+			document.getElementById("url").innerHTML = `   ${millisec}    ${url}`
+		})
+
+
+	}
+
 	</script>
     <button onClick=getPersonA()>getPersonA</button>
 	<button onClick=getPersonB()>getPersonB</button>
 	<button onClick=getPersonC()>getPersonC</button>
+	<button onClick=step1_login()>login Finch </button>
+	
 	<div id='url'></div>
+	<div id='refresh'></div>
+	<div id='token'></div>
     <textarea id='output' rows=40 cols=300 value=''></textarea>
     </body>
 </html>
