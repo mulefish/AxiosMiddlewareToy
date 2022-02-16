@@ -11,6 +11,22 @@
 
 	let accessToken;
 	let refreshToken;
+	let username = "Able"
+
+	function setToNewPerson() { 
+		// Change who we are! 
+		// Clear out the old accessToken and refreshToken! And clear out any 'innerValue' or 'values' that are set...
+		// Set the user to the new person!
+		// Note! The possible users are defined in database.js 
+		accessToken = undefined; 
+		refreshToken = undefined; 
+		document.getElementById("refreshToken").innerHTML = ""; 
+		document.getElementById("accessToken").innerHTML = "";
+		document.getElementById("output").value = "";
+		const selectObject = document.getElementById("userSelect");
+		username = selectObject.options[selectObject.selectedIndex].text;
+	}
+
 	function step1_login() { 
 		const url  = "http://localhost:4000/login" 
 		const t1 = new Date().getTime()
@@ -18,7 +34,7 @@
 			method: 'post', 
 			url: url,
 			data: {
-				username:'Bewick'
+				username:username
 			}
 		}).then(function(response) {
 			document.getElementById("output").value = JSON.stringify(response.data, null, 2) 
@@ -59,7 +75,6 @@
 	function tokenUse(){ 
 		const t1 = new Date().getTime()
 
-		// const data = JSON.stringify({"username":"Bewick"});
 		const baseURL = 'http://localhost:3030/';
 		const axiosInstance = axios.create({
 			baseURL,
@@ -67,7 +82,7 @@
 			headers: {
 				'Authorization': `Bearer ${accessToken}`
 			},
-			data: JSON.stringify({ username:'Bewick'}) 
+			data: JSON.stringify({ username:username}) 
 		})
 
 		axiosInstance('/endpoint1').then(function(response){
@@ -95,6 +110,17 @@
 	}
 
 	</script>
+	<select id='userSelect' onchange="setToNewPerson()">
+		<option selected>Able</option>
+		<option>Bewick</option>
+		<option>Cardinal</option>
+		<option>Dingo</option>
+		<option>Emu</option>
+		<option>Fox</option>
+		<option>NOBODY</option>		
+	</select>
+
+
 	<button onClick=step1_login()>get token ( server X)</button>
 	<button onClick=tokenUse()>use token ( server Y)</button>
 	<button onClick=tokenRefresh()>refresh token (server X)</button>

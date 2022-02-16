@@ -1,6 +1,4 @@
 //// This is all the code for the DB_mock.js file.
-
-
 const data = [{
     email: 'ashymud@company.com',
     username: 'Able',
@@ -31,7 +29,6 @@ const data = [{
 },
 {
     email: 'dunkedfish@company.com',
-
     username: 'Dingo',
     color: 'Green',
     pet: 'fish',
