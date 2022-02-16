@@ -51,10 +51,9 @@ function authenticateTokenMiddleWare(req, res, next) {
 }
 
 /////////////////// ENDPOINTS FOLLOW //////////////////////
-
-app.get('/healthcheck', async function (req, res) {
-  res.send("OK get");
-})
+// app.get('/healthcheck', async function (req, res) {
+//   res.send("OK get");
+// })
 
 app.post('/healthcheck', async function (req, res) {
   res.send("OK post");
