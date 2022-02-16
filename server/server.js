@@ -111,12 +111,24 @@ const posts = [
   } 
 ]
 
-app.get("/hello",(req, res)=>{
-  res.json({"hello":"world"})
-})
 
-app.get('/posts', authenticateToken, (req, res) => {
-  res.json(posts.filter(post => post.username === req.user.name))
+app.get('/endpoint1', authenticateToken, (req, res) => {
+
+
+  try { 
+
+  // const result = posts.filter(post => post.username === req.user.name)
+  // log('line 117 posts!  ' + authenticateToken + " and " + result  );
+
+  // res.json( result )
+
+      res.json("yay! ")
+
+  } catch (error) {
+
+    res.json({"ohno": error})
+  } 
+
 })
 
 function authenticateToken(req, res, next) {

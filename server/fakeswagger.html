@@ -38,7 +38,8 @@
 			document.getElementById("url").innerHTML = `   ${millisec}    ${url}`
 		})
 	}
-
+	let accessToken;
+	let refreshToken;
 	function step1_login() { 
 		const url  = "http://localhost:4000/login" 
 		const t1 = new Date().getTime()
@@ -50,15 +51,10 @@
 			}
 		}).then(function(response) {
 			document.getElementById("output").value = JSON.stringify(response.data, null, 2) 
-
-
+			accessToken = response.data.accessToken
+			refreshToken = response.data.refreshToken
 			document.getElementById("refreshToken").innerHTML = response.data.refreshToken; 
-	
 			document.getElementById("accessToken").innerHTML = response.data.accessToken;
-
-
-
-
 		}).catch(function(error) {
 			console.log(error.message);
 		}).then(function() {
@@ -68,12 +64,72 @@
 
 
 	}
+	function tokenUse(){ 
+
+
+
+		var data = JSON.stringify({"username":"Finch"});
+
+var config = {
+  method: 'get',
+  url: 'localhost:3030/endpoint1',
+  headers: { 
+    'Authorization': 'Bearer ' + accessToken, 
+    'Content-Type': 'application/json'
+  },
+  data : data
+};
+
+axios(config)
+.then(function (response) {
+  console.log(JSON.stringify(response.data));
+  alert(" YAY " + response.data)
+})
+.catch(function (error) {
+	alert("BOO! \n " + error.message + " \n\n" + accessToken)
+  console.log(error);
+});
+
+
+		// const bearerToken = "Bearer " + accessToken;
+		// const url  = "localhost:3030/posts" 
+		// const t1 = new Date().getTime()
+		// const headers =	 {
+    	// 	'Authorization': bearerToken, 
+    	// 	'Content-Type': 'application/json'
+  		// }
+		// axios({
+		// 	method: 'get', 
+		// 	url: url,
+		// 	headers: headers,
+		// 	data: {
+		// 		username:'Finch'
+		// 	}
+		// }).then(function(response) {
+		// 	document.getElementById("output").value = JSON.stringify(response.data, null, 2) 
+		// }).catch(function(error) {
+		// 	document.getElementById("output").value = JSON.stringify( error,null, 2 )  + "\n\n" + bearerToken ; 
+		// }).then(function() {
+		// 	const millisec = new Date().getTime() - t1;
+		// 	document.getElementById("url").innerHTML = `   ${millisec}    ${url}`
+		// })
+	}
+
+	function tokenRefresh(){ 
+		alert("TODO tokenRefresh")
+	}
+	function tokenCancel() { 
+		alert("TODO tokenCancel")
+	}
 
 	</script>
     <button onClick=getPersonA()>getPersonA</button>
-	<button onClick=getPersonB()>getPersonB</button>
-	<button onClick=getPersonC()>getPersonC</button>
-	<button onClick=step1_login()>login Finch </button>
+	<!-- <button onClick=getPersonB()>getPersonB</button>
+	<button onClick=getPersonC()>getPersonC</button> -->
+	<button onClick=step1_login()>get token ( server X)</button>
+	<button onClick=tokenUse()>use token ( server Y)</button>
+	<button onClick=tokenRefresh()>refresh token (server X)</button>
+	<button onClick=tokenCancel()>login out (server Y)</button>
 	
 	<div id='url'></div>
 	<table border="1">
