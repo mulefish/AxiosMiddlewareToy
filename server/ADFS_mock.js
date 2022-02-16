@@ -1,5 +1,6 @@
 require('dotenv').config()
 const express = require('express')
+const get_user = require('./database.js');
 const app = express()
 const jwt = require('jsonwebtoken')
 const cors = require('cors');
@@ -60,8 +61,11 @@ app.delete('/logout', (req, res) => {
 app.post('/login', (req, res) => {
 
   const username = req.body.username
-  const user = { name: username }
-  console.log("username: " + username)
+
+  // TWO THINGS OF NOTE HERE:
+  // 1. Look in database for this user
+  // 2. I did not have to put a fully baked user object in the JWT - depending on the topology of the app, I could have just put the username in the JWT.
+  const user = get_user(username)
   const accessToken = generateAccessToken(user)
   const refreshToken = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET)
   // const refreshToken = jwt.sign(user, REFRESH_TOKEN_SECRET)

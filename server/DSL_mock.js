@@ -70,7 +70,7 @@ const server = app.listen(port, function () {
 app.get('/endpoint1', authenticateTokenMiddleWare, (req, res) => {
   try { 
     log( " !!!! req user " + JSON.stringify( req.user, null, 2 ))
-    res.json(" OK " ) 
+    res.json( JSON.stringify( req.user) )  
   } catch (error) {
     res.json({"ohno": error})
   } 

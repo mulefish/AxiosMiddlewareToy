@@ -18,7 +18,7 @@
 			method: 'post', 
 			url: url,
 			data: {
-				username:'Finch'
+				username:'Bewick'
 			}
 		}).then(function(response) {
 			document.getElementById("output").value = JSON.stringify(response.data, null, 2) 
@@ -59,7 +59,7 @@
 	function tokenUse(){ 
 		const t1 = new Date().getTime()
 
-		const data = JSON.stringify({"username":"Finch"});
+		// const data = JSON.stringify({"username":"Bewick"});
 		const baseURL = 'http://localhost:3030/';
 		const axiosInstance = axios.create({
 			baseURL,
@@ -67,13 +67,13 @@
 			headers: {
 				'Authorization': `Bearer ${accessToken}`
 			},
-			data: JSON.stringify({ username:'Finch'}) 
+			data: JSON.stringify({ username:'Bewick'}) 
 		})
 
 		axiosInstance('/endpoint1').then(function(response){
 			// console.log(response.data)
-
-			document.getElementById("output").value = JSON.stringify(response.data, null, 2) 
+			const obj = JSON.parse(response.data)
+			document.getElementById("output").value = JSON.stringify( obj, null, 2 )
 			document.getElementById("refreshToken").innerHTML = ""; 
 			document.getElementById("accessToken").innerHTML = "";
 
@@ -82,7 +82,7 @@
 			alert(error.message)
 		}).then(function() {
 			const millisec = new Date().getTime() - t1;
-			document.getElementById("url").innerHTML = `   ${millisec}    ${url}`
+			document.getElementById("url").innerHTML = `   ${millisec}    ${baseURL}/endpoint1`
 		})
 
 	}
