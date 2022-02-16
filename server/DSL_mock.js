@@ -67,25 +67,18 @@ const posts = [
 ]
 
 
-
-
-// app.get('/endpoint1', (req, res) => {
-  app.get('/endpoint1', authenticateToken, (req, res) => {
+//////////////////// FOLLOWS IS THE ENDPOINT SERVER w/ token ///////////////////////
+app.get('/endpoint1', authenticateTokenMiddleWare, (req, res) => {
   try { 
-      res.json(" OK " ) 
-
+    res.json(" OK " ) 
   } catch (error) {
-
     res.json({"ohno": error})
   } 
 
 })
 
-function authenticateToken(req, res, next) {
-  log("............")
+function authenticateTokenMiddleWare(req, res, next) {
   log( req.headers )
-  log(" -------- ")
-
   const authHeader = req.headers['authorization'] //Bearer TOKEN
   const token = authHeader && authHeader.split(' ')[1]
   if (token == null) { 

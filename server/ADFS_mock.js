@@ -20,12 +20,7 @@ const configure = () => {
   
     next();
   };
-  
-
   configure();
-  
-
-
 
 let refreshTokens = []
 
@@ -70,21 +65,18 @@ app.post('/login', (req, res) => {
   const refreshToken = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET)
   // const refreshToken = jwt.sign(user, REFRESH_TOKEN_SECRET)
   refreshTokens.push(refreshToken)
-
     console.log("AccessToken: " + accessToken )
 
-
-
-
   res.json({ accessToken: accessToken, refreshToken: refreshToken })
-
-
-
 
 })
 
 function generateAccessToken(user) {
-  return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '20m' }) // '20m' 
+
+	user["dog"] = ["maggy", "shabone", "eeboo"  ] ; 
+  console.log( JSON.stringify( user, null, 2 ))
+
+  return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '10m' }) // '20m' 
   // return jwt.sign(user, ACCESS_TOKEN_SECRET, { expiresIn: '15s' })
 }
 const port = 4000

@@ -1,7 +1,5 @@
 //345678901234567890123456789012345678901234567890123456789012345678901234567890
 
-
-//////////////////// FOLLOWS IS THE SERVER ///////////////////////
 const express = require('express');
 const port = process.argv[2] || 3000;
 const app = express();
