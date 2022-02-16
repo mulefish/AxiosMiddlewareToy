@@ -28,6 +28,9 @@
 			data: {}
 		}).then(function(response) {
 			document.getElementById("output").value = JSON.stringify(response.data, null, 2)
+			
+
+
 		}).catch(function(error) {
 			console.log(error);
 		}).then(function() {
@@ -46,8 +49,16 @@
 				username:'Finch'
 			}
 		}).then(function(response) {
-//			document.getElementById("output").value = JSON.stringify(response.data, null, 2)
 			document.getElementById("output").value = JSON.stringify(response.data, null, 2) 
+
+
+			document.getElementById("refreshToken").innerHTML = response.data.refreshToken; 
+	
+			document.getElementById("accessToken").innerHTML = response.data.accessToken;
+
+
+
+
 		}).catch(function(error) {
 			console.log(error.message);
 		}).then(function() {
@@ -65,8 +76,17 @@
 	<button onClick=step1_login()>login Finch </button>
 	
 	<div id='url'></div>
-	<div id='refresh'></div>
-	<div id='token'></div>
+	<table border="1">
+		<tr>
+			<td>RefreshToken</td>
+			<td id="refreshToken"></td>
+		</tr>		
+		<tr>
+			<td>accessToken</td>
+			<td id="accessToken"></td>
+		</tr>		
+
+	</table>
     <textarea id='output' rows=40 cols=300 value=''></textarea>
     </body>
 </html>
