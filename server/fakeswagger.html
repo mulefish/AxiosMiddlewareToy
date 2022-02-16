@@ -64,55 +64,79 @@
 
 
 	}
+
+	function healthcheck() { 
+		const url  = "http://localhost:3030/healthcheck" 
+		const t1 = new Date().getTime()
+		axios({
+			method: 'post', 
+			url: url,
+			data: {
+				username:'Finch'
+			}
+		}).then(function(response) {
+			document.getElementById("output").value = JSON.stringify(response.data, null, 2) 
+			document.getElementById("refreshToken").innerHTML = ""; 
+			document.getElementById("accessToken").innerHTML = "";
+		}).catch(function(error) {
+			document.getElementById("output").value = error.message; 
+		}).then(function() {
+			const millisec = new Date().getTime() - t1;
+			document.getElementById("url").innerHTML = `   ${millisec}    ${url}`
+		})
+	}
+
+
+
 	function tokenUse(){ 
 
+	
+	
+	
+	// import axios from 'axios';
+	// import oidcManager from './oidc-manager';
+	
+	/* Returns a new Axios instance configured for the project
+	 * @param {number} timeout - how many milliseconds you'd like Axios to wait before reporting a timeout error.  Defaults to 0 (or not specified).  This setting has no effect on the server's timeout limit.
+	 */
+	
+	/* istanbul ignore next */
+	const baseURL = 'http://localhost:3030/';
 
+	const axiosInstance = axios.create({
+		baseURL,
+		timeout: 0,
+		headers: {
+			'Authorization': `Bearer ${accessToken}`
+		}
+	})
+// const apiClient = axios.create({
+//   baseURL,
+//   withCredentials: false,
+//   headers: {
+//     Accept: 'application/json',
+//     'Content-Type': 'application/json',
+//   },
+// });
 
-		var data = JSON.stringify({"username":"Finch"});
-
-var config = {
-  method: 'get',
-  url: 'localhost:3030/endpoint1',
-  headers: { 
-    'Authorization': 'Bearer ' + accessToken, 
-    'Content-Type': 'application/json'
-  },
-  data : data
-};
-
-axios(config)
-.then(function (response) {
-  console.log(JSON.stringify(response.data));
-  alert(" YAY " + response.data)
+axiosInstance('/endpoint1').then(function(response){
+	console.log(response.data)
+}).catch(function(error){
+	alert(error.message)
 })
-.catch(function (error) {
-	alert("BOO! \n " + error.message + " \n\n" + accessToken)
-  console.log(error);
-});
+
+// axios(config)
+// .then(function (response) {
+// 	alert(" YAY " + response.data )
+//   console.log(JSON.stringify(response.data));
+// })
+// .catch(function (error) {
+// 	alert(" BOO " + error.message )
+//   console.log(error);
+// });
 
 
-		// const bearerToken = "Bearer " + accessToken;
-		// const url  = "localhost:3030/posts" 
-		// const t1 = new Date().getTime()
-		// const headers =	 {
-    	// 	'Authorization': bearerToken, 
-    	// 	'Content-Type': 'application/json'
-  		// }
-		// axios({
-		// 	method: 'get', 
-		// 	url: url,
-		// 	headers: headers,
-		// 	data: {
-		// 		username:'Finch'
-		// 	}
-		// }).then(function(response) {
-		// 	document.getElementById("output").value = JSON.stringify(response.data, null, 2) 
-		// }).catch(function(error) {
-		// 	document.getElementById("output").value = JSON.stringify( error,null, 2 )  + "\n\n" + bearerToken ; 
-		// }).then(function() {
-		// 	const millisec = new Date().getTime() - t1;
-		// 	document.getElementById("url").innerHTML = `   ${millisec}    ${url}`
-		// })
+
 	}
 
 	function tokenRefresh(){ 
@@ -130,6 +154,7 @@ axios(config)
 	<button onClick=tokenUse()>use token ( server Y)</button>
 	<button onClick=tokenRefresh()>refresh token (server X)</button>
 	<button onClick=tokenCancel()>login out (server Y)</button>
+	<button onClick=healthcheck()>healthcheck</button>
 	
 	<div id='url'></div>
 	<table border="1">
@@ -144,5 +169,19 @@ axios(config)
 
 	</table>
     <textarea id='output' rows=40 cols=300 value=''></textarea>
+
+
+	<script>
+		function zeroout() { 
+			document.getElementById("output").value = "";
+			document.getElementById("refreshToken").innerHTML = ""; 
+			document.getElementById("accessToken").innerHTML = "";
+			accessToken = undefined;
+			refreshToken = undefined;
+		}
+		zeroout(); 
+	</script>
+
+
     </body>
 </html>
