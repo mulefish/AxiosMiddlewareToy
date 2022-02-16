@@ -67,12 +67,12 @@ const posts = [
 ]
 
 
+
+
 // app.get('/endpoint1', (req, res) => {
   app.get('/endpoint1', authenticateToken, (req, res) => {
-
   try { 
-
-      res.json(" OK it works" )
+      res.json(" OK " ) 
 
   } catch (error) {
 
