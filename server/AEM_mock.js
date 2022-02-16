@@ -5,14 +5,14 @@ const port = process.argv[2] || 3000;
 const app = express();
 let count = 0 
 function log(msg) {
-  console.log( ++count + ' | ' + msg);
+  console.log("AEM_mock: " + ++count + ' | ' + msg);
 }
 app.get('/', function (req, res) {
-  log('/fakeswagger.html');
-  res.sendFile('fakeswagger.html', { root: __dirname });
+  log('/webpage.html');
+  res.sendFile('webpage.html', { root: __dirname });
 });
 
 const server = app.listen(port, function () {
-  log(`page running at localhost:${port}/`);
+  log(`AEM_mock: web page visible at localhost:${port}/`);
 });
 

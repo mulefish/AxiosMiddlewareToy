@@ -8,36 +8,7 @@
 
 <body>
 	<script>
-	function getPersonA() {
-		logic('/person?firstname=Able')
-	}
 
-	function getPersonB() {
-		logic('/person?firstname=Beatrice')
-	}
-
-	function getPersonC() {
-		logic('/person?firstname=Conner')
-	}
-
-	function logic(url) {
-		const t1 = new Date().getTime()
-		axios({
-			method: 'get',
-			url: url,
-			data: {}
-		}).then(function(response) {
-			document.getElementById("output").value = JSON.stringify(response.data, null, 2)
-			
-
-
-		}).catch(function(error) {
-			console.log(error);
-		}).then(function() {
-			const millisec = new Date().getTime() - t1;
-			document.getElementById("url").innerHTML = `   ${millisec}    ${url}`
-		})
-	}
 	let accessToken;
 	let refreshToken;
 	function step1_login() { 
@@ -71,9 +42,9 @@
 		axios({
 			method: 'post', 
 			url: url,
-			data: {
-				username:'Finch'
-			}
+			// data: {
+			// 	username:'Finch'
+			// }
 		}).then(function(response) {
 			document.getElementById("output").value = JSON.stringify(response.data, null, 2) 
 			document.getElementById("refreshToken").innerHTML = ""; 
@@ -110,7 +81,11 @@
 
 		}).catch(function(error){
 			alert(error.message)
+		}).then(function() {
+			const millisec = new Date().getTime() - t1;
+			document.getElementById("url").innerHTML = `   ${millisec}    ${url}`
 		})
+
 	}
 
 	function tokenRefresh(){ 
@@ -121,9 +96,6 @@
 	}
 
 	</script>
-    <button onClick=getPersonA()>getPersonA</button>
-	<!-- <button onClick=getPersonB()>getPersonB</button>
-	<button onClick=getPersonC()>getPersonC</button> -->
 	<button onClick=step1_login()>get token ( server X)</button>
 	<button onClick=tokenUse()>use token ( server Y)</button>
 	<button onClick=tokenRefresh()>refresh token (server X)</button>

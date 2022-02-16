@@ -1,22 +1,15 @@
 //345678901234567890123456789012345678901234567890123456789012345678901234567890
-///////////////////// START DB LOGIC ///////////////////////
-
-//////////////////// FOLLOWS IS THE SERVER ///////////////////////
 const express = require('express');
+const data = require('./database.js');
 require('dotenv').config()
-
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const port = process.argv[2] || 3030;
-
 const jwt = require('jsonwebtoken')
-
-
 const allowCrossDomain = function (req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
   res.header('Access-Control-Allow-Headers', 'Content-Type');
-
   next();
 };
 const app = express();
@@ -30,52 +23,11 @@ const configure = () => {
 configure();
 let count = 0 
 function log(msg) {
-  console.log( ++count + ' | ' + msg);
+  console.log( 'DSL_mock: ' + ++count + ' | ' + msg);
 }
-app.get('/healthcheck', async function (req, res) {
-  res.send("OK get");
-})
-app.post('/healthcheck', async function (req, res) {
-  res.send("OK post");
-})
-
-const server = app.listen(port, function () {
-  log(`running at localhost:${port}/`);
-});
-
-
-//////////////////// START AUTH LOGIC ///////////////////////
-
-
-const posts = [
-  {
-    username: 'Finch',
-    title: 'Blue'
-  },
-  {
-    username: 'Bewick',
-    title: 'Red'
-  },  
-  {
-      username: 'Sparrow',
-      title: 'Green'
-  },
-  {
-  username: 'Robin',
-  title: 'Orange'
-  } 
-]
-
-
-//////////////////// FOLLOWS IS THE ENDPOINT SERVER w/ token ///////////////////////
-app.get('/endpoint1', authenticateTokenMiddleWare, (req, res) => {
-  try { 
-    res.json(" OK " ) 
-  } catch (error) {
-    res.json({"ohno": error})
-  } 
-
-})
+/////////////////////////// SET UP COMPLETE ////////////////////////////////////
+// Real logic follows 
+//345678901234567890123456789012345678901234567890123456789012345678901234567890
 
 function authenticateTokenMiddleWare(req, res, next) {
   log( req.headers )
@@ -98,7 +50,29 @@ function authenticateTokenMiddleWare(req, res, next) {
   })
 }
 
-//////////////////// END AUTH LOGIC ///////////////////////
+/////////////////// ENDPOINTS FOLLOW //////////////////////
+
+app.get('/healthcheck', async function (req, res) {
+  res.send("OK get");
+})
+
+app.post('/healthcheck', async function (req, res) {
+  res.send("OK post");
+})
+
+const server = app.listen(port, function () {
+  log(`DLS_mock: listening at localhost:${port}/`);
 
 
 
+
+});
+
+app.get('/endpoint1', authenticateTokenMiddleWare, (req, res) => {
+  try { 
+    log( " req user " + JSON.stringify( req.user, null, 2 ))
+    res.json(" OK " ) 
+  } catch (error) {
+    res.json({"ohno": error})
+  } 
+})
