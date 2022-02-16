@@ -61,7 +61,7 @@ app.post('/login', (req, res) => {
 
   const username = req.body.username
   const user = { name: username }
-
+  console.log("username: " + username)
   const accessToken = generateAccessToken(user)
   const refreshToken = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET)
   // const refreshToken = jwt.sign(user, REFRESH_TOKEN_SECRET)
@@ -74,9 +74,9 @@ app.post('/login', (req, res) => {
 
 function generateAccessToken(user) {
 
-	user["dog"] = ["maggy", "shabone", "eeboo"  ] ; 
+	// user["dog"] = ["maggy", "shabone", "eeboo"  ] ; 
   
-  log( JSON.stringify( user, null, 2 ))
+  // log( JSON.stringify( user, null, 2 ))
 
   return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '10m' }) // '20m' 
   // return jwt.sign(user, ACCESS_TOKEN_SECRET, { expiresIn: '15s' })

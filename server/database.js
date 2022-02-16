@@ -8,6 +8,7 @@ const data = [{
     pet: 'dog',
     drink: 'water',
     location: 'Oregon',
+    attention:['news', 'fastcars', 'weather', 'stock'],
 },
 {
     email: 'bakedrasberry@company.com',
@@ -16,13 +17,17 @@ const data = [{
     pet: undefined,
     drink: 'coffee',
     location: 'California',
+    attention:['news', 'human interest', 'animals', 'pollution', 'marketing','electric', 'toyta', 'tesla'],
+
 },
 {
     email: 'charredpie@company.com',
     username: 'Cardinal',
     color: 'Green',
     pet: 'cat',
-    location: 'Japan'
+    location: 'Japan',
+    attention:['sports', 'stock']
+
 },
 {
     email: 'dunkedfish@company.com',
@@ -30,7 +35,9 @@ const data = [{
     username: 'Dingo',
     color: 'Green',
     pet: 'fish',
-    location: 'China'
+    location: 'China',
+    attention:['event calendar', 'pto calculator', '401k status']
+
 },
 {
     email: 'emurific@aothercompany',
@@ -38,7 +45,8 @@ const data = [{
     color: 'Orange',
     pet: 'emu',
     drink: 'tea',
-    location: 'India'
+    location: 'India', 
+    attention:[ 'childcare', 'carpool-in-my-city', 'stock', 'event calendar', 'pto calculator', '401k status']
 
 }, 
 {
@@ -47,9 +55,31 @@ const data = [{
     color: 'Tawny',
     pet: 'worm',
     drink: 'sparkly water',
-    location: 'Brazil'
+    location: 'Brazil', 
+    attention:[ 'insurance', 'event calendar', 'pto calculator', '401k status']
 
 }
 
 ]
-module.exports = data;
+
+const anonymous = {
+    email: 'unknown',
+    username: 'anon',
+    color: 'unknown',
+    pet: 'unknown',
+    drink: 'unknown',
+    location: 'unknown', 
+    attention:[ 'childcare', 'carpool-in-my-city', 'insurance','stock', 'event calendar', 'pto calculator', 'sports', 'news', 'human interest', 'animals', 'pollution', 'marketing','electric', 'toyta', 'tesla', 'fastcars', 'weather']
+}
+
+
+function get_user(username) {
+    const obj = data.filter(x => x.username == username )[0] // Return the first element in the array.
+    if ( obj !== undefined ) {
+        return obj; 
+    }
+    return anonymous;
+}
+
+
+module.exports = get_user;
