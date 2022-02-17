@@ -37,7 +37,7 @@ function authenticateTokenMiddleWare(req, res, next) {
     log("line 37 null " + token)
     return res.sendStatus(401)
   }
-
+  // token , secret , callback
   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
     if (err) { 
       log( "line 43 err for \n" + token + " \n" + err)

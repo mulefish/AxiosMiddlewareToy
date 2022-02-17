@@ -104,6 +104,7 @@
 
 	function get_list_of_attention(){ 
 		const t1 = new Date().getTime()
+		const things = { username:username,dog:'eeboo', refreshToken:refreshToken }
 
 		const baseURL = 'http://localhost:3030/';
 		// alert( "Token Use " + username )
@@ -114,7 +115,8 @@
 				'Authorization': `Bearer ${accessToken}`
 			},
 			
-			data: JSON.stringify({ username:username}) 
+			// data: JSON.stringify({ username:username,}) 
+			data: JSON.stringify( things )
 		})
 
 		axiosInstance('/get_list_of_attention').then(function(response){
@@ -136,7 +138,38 @@
 	}
 
 	function tokenRefresh(){ 
-		alert("TODO tokenRefresh")
+		const username = "Able"
+		const url  = "http://localhost:4000/token" 
+		const t1 = new Date().getTime()
+		axios({
+			method: 'post', 
+			url: url,
+			headers: {
+				'Authorization': `Bearer ${accessToken}`,
+				'Content-Type': 'application/json'
+			},
+
+			data: {
+				username:username,
+				refreshToken:refreshToken,
+				accessToken:accessToken,
+				dog:'eeboo'
+			}
+		}).then(function(response) {
+			document.getElementById("output").value = JSON.stringify(response.data, null, 2) 
+			document.getElementById("refreshToken").innerHTML = ""; 
+			document.getElementById("accessToken").innerHTML = "";
+		}).catch(function(error) {
+			document.getElementById("output").value = error.message; 
+		}).then(function() {
+			const millisec = new Date().getTime() - t1;
+			document.getElementById("url").innerHTML = `   ${millisec}    ${url}`
+		})
+
+
+
+
+
 	}
 	function tokenCancel() { 
 		alert("TODO tokenCancel")
