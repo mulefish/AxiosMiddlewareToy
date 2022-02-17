@@ -87,15 +87,16 @@
 		})
 
 		axiosInstance('/get_article').then(function(response){
-			// console.log(response.data)
-			// alert( response.data )
+
 			const article = response.data
 			document.getElementById("output").value = article;
 			document.getElementById("refreshToken").innerHTML = ""; 
 			document.getElementById("accessToken").innerHTML = "";
 			updateLocalStorage(article)
 		}).catch(function(error){
-			alert(error.message)
+			document.getElementById("output").value = error.message;
+
+
 		}).then(function() {
 			const millisec = new Date().getTime() - t1;
 			document.getElementById("url").innerHTML = `   ${millisec}    ${baseURL}/get_article`
@@ -107,7 +108,6 @@
 		const things = { username:username,dog:'eeboo', refreshToken:refreshToken }
 
 		const baseURL = 'http://localhost:3030/';
-		// alert( "Token Use " + username )
 		const axiosInstance = axios.create({
 			baseURL,
 			timeout: 0,
@@ -120,8 +120,7 @@
 		})
 
 		axiosInstance('/get_list_of_attention').then(function(response){
-			// console.log(response.data)
-			// alert( response.data )
+
 			const obj = JSON.parse(response.data)
 			document.getElementById("output").value = JSON.stringify( obj, null, 2 )
 			document.getElementById("refreshToken").innerHTML = ""; 
@@ -129,7 +128,7 @@
 
 
 		}).catch(function(error){
-			alert(error.message)
+			document.getElementById("output").value = error.message;
 		}).then(function() {
 			const millisec = new Date().getTime() - t1;
 			document.getElementById("url").innerHTML = `   ${millisec}    ${baseURL}/get_list_of_attention`
@@ -150,15 +149,14 @@
 			},
 
 			data: {
-				username:username,
 				refreshToken:refreshToken,
-				accessToken:accessToken,
-				dog:'eeboo'
 			}
 		}).then(function(response) {
 			document.getElementById("output").value = JSON.stringify(response.data, null, 2) 
-			document.getElementById("refreshToken").innerHTML = ""; 
-			document.getElementById("accessToken").innerHTML = "";
+			accessToken = response.data.accessToken
+			// refreshToken = response.data.refreshToken
+			document.getElementById("refreshToken").innerHTML = response.data.refreshToken; 
+			document.getElementById("accessToken").innerHTML = response.data.accessToken;
 		}).catch(function(error) {
 			document.getElementById("output").value = error.message; 
 		}).then(function() {

@@ -27,45 +27,17 @@ const configure = () => {
   let refreshTokens = [] /// In production this would be a  DATABASE or REDDIS or something. 
 
   app.post('/token', (req, res) => {
-    const authHeader = req.headers['authorization'] //Bearer TOKEN
-    let obj = {"dino":"cat "}
-    // console.log("authHeader " + authHeader)
-//    console.log( "username: " + req['username'] )
-
-    // console.log( "token body: " + req.body['username'] )
-    // console.log( "token type: " + req.body['type'] )
-    // console.log( "token refresh: " + req.body['refreshToken'] )
-    // console.log( "body body: " + JSON.stringify( req.body )  )
-    console.log( "refresh: " + req.body['refreshToken'] )
-
-//    console.log("data: " + req.data)
-//    console.log("authHeader: " + authHeader)
-    res.send(obj)
-    // console.log(" BODY  " + req.body?.refreshToken)
-    // console.log(" DATA  " + req.data?.refreshToken)
-    // try {
-    // console.log(" REFR  " + req.refreshToken)
-    // } catch ( nope) {
-    //   console.log("req.refreshToken is "  + nope.message)
-    // }
-    // // const refreshToken = req.data.refreshToken
-    // const refreshToken = req.refreshToken
-    // if (refreshToken == null) { 
-
-    //   // for ( let l in req.data ) {
-    //   //   console.log( l )
-    //   // }
-
-
-    //   return res.sendStatus(401)
-
-    // } 
-    // if (!refreshTokens.includes(refreshToken)) return res.sendStatus(403)
-    // jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
-    //   if (err) return res.sendStatus(403)
-    //   const accessToken = generateAccessToken({ name: user.name })
-    //   res.json({ accessToken: accessToken })
-    // })
+    const refreshToken = req.body.refreshToken
+    if (refreshToken == null) {
+      console.log(" 401! " + refreshToken)
+      return res.sendStatus(401)
+    } 
+    if (!refreshTokens.includes(refreshToken)) return res.sendStatus(403)
+    jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
+      if (err) return res.sendStatus(403)
+      const accessToken = generateAccessToken({ name: user.name })
+      res.json({ accessToken: accessToken })
+    })
   })
   
   app.delete('/logout', (req, res) => {
@@ -92,7 +64,7 @@ app.post('/login', (req, res) => {
 })
 
 function generateAccessToken(user) {
-  return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '60s' }) // '20m' 
+  return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '3s' }) // '20m' 
 }
 const port = 4000
 app.listen(port)
