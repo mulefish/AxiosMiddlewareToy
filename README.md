@@ -17,7 +17,3 @@ Go into the server directory - that is where the interesting stuff is.
 # Suggested video ( about 30 minutes )
 
 https://www.youtube.com/watch?v=mbsmsi7l3r4
-
-# Screen shot
-
-![ScreenShot.png](ScreenShot.png "ScreenCap")
