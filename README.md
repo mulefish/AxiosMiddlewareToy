@@ -13,3 +13,11 @@ Because this was born as a client ( react ) + server ( node express ) but it evo
 # What next?
 
 Go into the server directory - that is where the interesting stuff is.
+
+# Suggested video ( about 30 minutes )
+
+https://www.youtube.com/watch?v=mbsmsi7l3r4
+
+# Screen shot
+
+![Alt text](ScreenShot.png?raw=true "ScreenCap")
