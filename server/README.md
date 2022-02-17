@@ -25,6 +25,7 @@ Two methods: step1_login() and then get_list_of_attention()... ...Everything els
 
 First off: step1_logic():
 let accessToken; # !!! Here is the magic! Part 0 ( a global accessToken that will get set in step1 and used in 'get_list_of_attention' ( in React this will be in Redux of something like that ))
+
 function step1_login() {
 const url = "http://localhost:4000/login"
 axios({
