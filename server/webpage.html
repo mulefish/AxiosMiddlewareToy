@@ -48,8 +48,6 @@
 			const millisec = new Date().getTime() - t1;
 			document.getElementById("url").innerHTML = `   ${millisec}    ${url}`
 		})
-
-
 	}
 
 	function healthcheck() { 
@@ -71,11 +69,8 @@
 	}
 
 	function get_article_and_put_into_localstorage() { 
-
 		const t1 = new Date().getTime()
-
 		const baseURL = 'http://localhost:3030/';
-		// alert( "Token Use " + username )
 		const axiosInstance = axios.create({
 			baseURL,
 			timeout: 0,
@@ -87,8 +82,6 @@
 		})
 
 		axiosInstance('/get_article').then(function(response){
-			// console.log(response.data)
-			// alert( response.data )
 			const article = response.data
 			document.getElementById("output").value = article;
 			document.getElementById("refreshToken").innerHTML = ""; 
