@@ -20,4 +20,4 @@ https://www.youtube.com/watch?v=mbsmsi7l3r4
 
 # Screen shot
 
-![Alt text](ScreenShot.png?raw=true "ScreenCap")
+![ScreenShot.png](ScreenShot.png "ScreenCap")
