@@ -26,7 +26,7 @@ const configure = () => {
 
   let refreshTokens = [] /// In production this would be a  DATABASE or REDDIS or something. 
 
-  app.post('/token', (req, res) => {
+  app.post('/refreshTheToken', (req, res) => {
     const refreshToken = req.body.refreshToken
     if (refreshToken == null) {
       console.log(" 401! " + refreshToken)
@@ -40,9 +40,17 @@ const configure = () => {
     })
   })
   
-  app.delete('/logout', (req, res) => {
-    refreshTokens = refreshTokens.filter(token => token !== req.body.token)
-    res.sendStatus(204)
+  app.delete('/tokenCancel', (req, res) => {
+    refreshTokens = refreshTokens.filter(token => token !== req.body.accessToken)
+
+    console.log( req.body.accessToken ) 
+
+    refreshTokens.forEach((token, index) => {
+      console.log( index + "\n"  + token )
+    }) 
+
+    res.send("HttpStatus: 204")
+    // res.sendStatus(204)
   })
   
 
@@ -64,7 +72,7 @@ app.post('/login', (req, res) => {
 })
 
 function generateAccessToken(user) {
-  return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '3s' }) // '20m' 
+  return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '60s' }) // '20m' 
 }
 const port = 4000
 app.listen(port)
