@@ -24,38 +24,38 @@ browser to localhost:3000
 Two methods: step1_login() and then get_list_of_attention()... ...Everything else is mere noise and niceties.
 
 First off: step1_logic():
-let accessToken; # !!! Here is the magic! Part 0 ( a global accessToken that will get set in step1 and used in 'get_list_of_attention' ( in React this will be in Redux of something like that ))
+let accessToken; # !!! Here is the JWT magic! Part 0 ( a global accessToken that will get set in step1 and used in 'get_list_of_attention' ( in React this will be in Redux of something like that ))
 
-function step1_login() {
-const url = "http://localhost:4000/login"
-axios({
-method: 'post',
-url: url,
-data: {
-username:username // Just a user name like 'Paul' or 'Able'...  
- }
-}).then(function(response) {
-document.getElementById("output").value = JSON.stringify(response.data, null, 2)
-accessToken = response.data.accessToken # !!! Here is the magic! Part 1
-refreshToken = response.data.refreshToken
-document.getElementById("refreshToken").innerHTML = response.data.refreshToken;
-document.getElementById("accessToken").innerHTML = response.data.accessToken;
-}).catch(function(error) {
-console.log(error.message);
-}).then(function() {
-// removed for concision
-})
-}
+    function step1_login() {
+        const url = "http://localhost:4000/login"
+        axios({
+            method: 'post',
+            url: url,
+            data: {
+                username:username // Just a user name like 'Paul' or 'Able'...
+            }
+        }).then(function(response) {
+            document.getElementById("output").value = JSON.stringify(response.data, null, 2)
+            accessToken = response.data.accessToken # !!! Here is the JWT magic! Part 1
+            refreshToken = response.data.refreshToken
+            document.getElementById("refreshToken").innerHTML = response.data.refreshToken;
+            document.getElementById("accessToken").innerHTML = response.data.accessToken;
+        }).catch(function(error) {
+            console.log(error.message);
+        }).then(function() {
+            // removed for concision
+        })
+    }
 
 Second off: Using the accessToken that step1_login set up!
 
     function get_list_of_attention(){
     	const baseURL = 'http://localhost:3030/';
-    	const axiosInstance = axios.create({
+    	const axiosInstance = axios.create({  # axiosInstance! Nice to abstract out anything the next dev might want to do.
     		baseURL,
     		timeout: 0,
     		headers: {
-    			'Authorization': `Bearer ${accessToken}`   # !!! Here is the magic! Part 2
+    			'Authorization': `Bearer ${accessToken}`   # !!! Here is the JWT magic! Part 2
     		},
     		data: JSON.stringify({ username:username})
     	})
