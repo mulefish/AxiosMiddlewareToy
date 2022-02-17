@@ -71,23 +71,18 @@
 	}
 
 	function get_article_and_put_into_localstorage() { 
-
 		const t1 = new Date().getTime()
-
 		const baseURL = 'http://localhost:3030/';
-		// alert( "Token Use " + username )
 		const axiosInstance = axios.create({
 			baseURL,
 			timeout: 0,
 			headers: {
 				'Authorization': `Bearer ${accessToken}`
 			},
-			
 			data: JSON.stringify({ username:username}) 
 		})
 
 		axiosInstance('/get_article').then(function(response){
-
 			const article = response.data
 			document.getElementById("output").value = article;
 			document.getElementById("refreshToken").innerHTML = ""; 
@@ -95,8 +90,6 @@
 			updateLocalStorage(article)
 		}).catch(function(error){
 			document.getElementById("output").value = error.message;
-
-
 		}).then(function() {
 			const millisec = new Date().getTime() - t1;
 			document.getElementById("url").innerHTML = `   ${millisec}    ${baseURL}/get_article`
@@ -105,8 +98,7 @@
 
 	function get_list_of_attention(){ 
 		const t1 = new Date().getTime()
-		const things = { username:username,dog:'eeboo', refreshToken:refreshToken }
-
+		// const things = { username:username,dog:'eeboo', refreshToken:refreshToken }
 		const baseURL = 'http://localhost:3030/';
 		const axiosInstance = axios.create({
 			baseURL,
@@ -115,25 +107,21 @@
 				'Authorization': `Bearer ${accessToken}`
 			},
 			
-			// data: JSON.stringify({ username:username,}) 
-			data: JSON.stringify( things )
+			data: JSON.stringify({ username:username,}) 
+			// data: JSON.stringify( things )
 		})
 
 		axiosInstance('/get_list_of_attention').then(function(response){
-
 			const obj = JSON.parse(response.data)
 			document.getElementById("output").value = JSON.stringify( obj, null, 2 )
 			document.getElementById("refreshToken").innerHTML = ""; 
 			document.getElementById("accessToken").innerHTML = "";
-
-
 		}).catch(function(error){
 			document.getElementById("output").value = error.message;
 		}).then(function() {
 			const millisec = new Date().getTime() - t1;
 			document.getElementById("url").innerHTML = `   ${millisec}    ${baseURL}/get_list_of_attention`
 		})
-
 	}
 
 	function tokenRefresh(){ 
@@ -154,8 +142,7 @@
 		}).then(function(response) {
 			document.getElementById("output").value = JSON.stringify(response.data, null, 2) 
 			accessToken = response.data.accessToken
-			// refreshToken = response.data.refreshToken
-			document.getElementById("refreshToken").innerHTML = refreshToken; // See? No timeout!
+			document.getElementById("refreshToken").innerHTML = refreshToken; // See? No timeout! The refresh token is still valid from the first time that the user logged in.
 			document.getElementById("accessToken").innerHTML = response.data.accessToken;
 		}).catch(function(error) {
 			document.getElementById("output").value = error.message; 
@@ -163,17 +150,9 @@
 			const millisec = new Date().getTime() - t1;
 			document.getElementById("url").innerHTML = `   ${millisec}    ${url}`
 		})
-
-
-
-
-
 	}
 	function tokenCancel() { 
-
-
-
-		const username = "Able"
+		// const username = "Able"
 		const url  = "http://localhost:4000/tokenCancel" 
 		const t1 = new Date().getTime()
 		axios({
@@ -183,10 +162,10 @@
 				'Authorization': `Bearer ${accessToken}`,
 				'Content-Type': 'application/json'
 			},
-
-			data: {
-				accessToken:accessToken,
-			}
+			data:{}
+			// data: {
+			// 	accessToken:accessToken,
+			// }
 		}).then(function(response) {
 			document.getElementById("output").value = JSON.stringify(response.data, null, 2) 
 			accessToken = response.data.accessToken
@@ -199,20 +178,13 @@
 			const millisec = new Date().getTime() - t1;
 			document.getElementById("url").innerHTML = `   ${millisec}    ${url}`
 		})
-
-
-
-
-		
-
 	}
 
 	function updateLocalStorage(article) {
+		// Just to an example of using localStorage
  		localStorage.setItem('article', article);
 		document.getElementById("localstore").value = localStorage.getItem('article')
 	} 
-
-
 	</script>
 	<select id='userSelect' onchange="setToNewPerson()">
 		<option selected>Able</option>
@@ -221,14 +193,13 @@
 		<option>Dingo</option>
 		<option>Emu</option>
 		<option>Fox</option>
-		<option>NOBODY</option>		
+		<option>NOBODY</option>		<!-- This one is NOT in the database.js - it will get the anonymous experience --> 
 	</select>
 
 
 	<button onClick=step1_login()>get token</button>
 	<button onClick=get_list_of_attention()>get_list_of_attention</button>
 	<button onClick=get_article_and_put_into_localstorage()>get_article_and_put_into_localstorage</button>
-
 	<button onClick=tokenRefresh()>refresh token (server X)</button>
 	<button onClick=tokenCancel()>login out (server Y)</button>
 	<button onClick=healthcheck()>healthcheck</button>
@@ -247,7 +218,7 @@
 	</table>
 	<table  style="width:95%">
 		<tr>
-			<th>LAST RECEIVED</th>
+			<th>RECEIVED</th>
 			<th>CURRENT LOCAL STORE</th>
 		</tr>
 		<tr>
