@@ -1,6 +1,7 @@
 //345678901234567890123456789012345678901234567890123456789012345678901234567890
 const express = require('express');
-const data = require('./database.js');
+const { get_fake_article } = require('./database.js');
+
 require('dotenv').config()
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -30,20 +31,19 @@ function log(msg) {
 //345678901234567890123456789012345678901234567890123456789012345678901234567890
 
 function authenticateTokenMiddleWare(req, res, next) {
-  log( req.headers )
   const authHeader = req.headers['authorization'] //Bearer TOKEN
   const token = authHeader && authHeader.split(' ')[1]
   if (token == null) { 
-    log("null " + token)
+    log("line 37 null " + token)
     return res.sendStatus(401)
   }
 
   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
     if (err) { 
-      log( "err for \n" + token + " \n" + err)
+      log( "line 43 err for \n" + token + " \n" + err)
       return res.sendStatus(403)
     } else {
-      log("token is good! " + token )
+      // log("line 46 token is good! " + token )
     }
     req.user = user
     next()
@@ -61,16 +61,26 @@ app.post('/healthcheck', async function (req, res) {
 
 const server = app.listen(port, function () {
   log(`DLS_mock: listening at localhost:${port}/`);
-
-
-
-
 });
 
-app.get('/endpoint1', authenticateTokenMiddleWare, (req, res) => {
+app.get('/get_list_of_attention', authenticateTokenMiddleWare, (req, res) => {
   try { 
-    log( " !!!! req user " + JSON.stringify( req.user, null, 2 ))
-    res.json( JSON.stringify( req.user) )  
+    // log( "data: !! " + JSON.stringify( req.data) ) 
+    // log( " !!!! req user " + JSON.stringify( req.user, null, 2 ))
+    // const eeb00 = ['board', 'af', "dfaf" ]
+    const some_article = get_fake_article()
+    res.json( JSON.stringify( req.user)  )
+    // res.json( JSON.stringify(some_article)  )   
+  } catch (error) {
+    res.json({"ohno": error})
+  } 
+})
+
+
+app.get('/get_article', authenticateTokenMiddleWare, (req, res) => {
+  try { 
+    const some_article = get_fake_article()
+    res.json( JSON.stringify( some_article)  )
   } catch (error) {
     res.json({"ohno": error})
   } 

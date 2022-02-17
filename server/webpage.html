@@ -70,23 +70,56 @@
 		})
 	}
 
+	function get_article_and_put_into_localstorage() { 
 
-
-	function tokenUse(){ 
 		const t1 = new Date().getTime()
 
 		const baseURL = 'http://localhost:3030/';
+		// alert( "Token Use " + username )
 		const axiosInstance = axios.create({
 			baseURL,
 			timeout: 0,
 			headers: {
 				'Authorization': `Bearer ${accessToken}`
 			},
+			
 			data: JSON.stringify({ username:username}) 
 		})
 
-		axiosInstance('/endpoint1').then(function(response){
+		axiosInstance('/get_article').then(function(response){
 			// console.log(response.data)
+			// alert( response.data )
+			const article = response.data
+			document.getElementById("output").value = article;
+			document.getElementById("refreshToken").innerHTML = ""; 
+			document.getElementById("accessToken").innerHTML = "";
+			updateLocalStorage(article)
+		}).catch(function(error){
+			alert(error.message)
+		}).then(function() {
+			const millisec = new Date().getTime() - t1;
+			document.getElementById("url").innerHTML = `   ${millisec}    ${baseURL}/get_article`
+		})
+	}
+
+	function get_list_of_attention(){ 
+		const t1 = new Date().getTime()
+
+		const baseURL = 'http://localhost:3030/';
+		// alert( "Token Use " + username )
+		const axiosInstance = axios.create({
+			baseURL,
+			timeout: 0,
+			headers: {
+				'Authorization': `Bearer ${accessToken}`
+			},
+			
+			data: JSON.stringify({ username:username}) 
+		})
+
+		axiosInstance('/get_list_of_attention').then(function(response){
+			// console.log(response.data)
+			// alert( response.data )
 			const obj = JSON.parse(response.data)
 			document.getElementById("output").value = JSON.stringify( obj, null, 2 )
 			document.getElementById("refreshToken").innerHTML = ""; 
@@ -97,7 +130,7 @@
 			alert(error.message)
 		}).then(function() {
 			const millisec = new Date().getTime() - t1;
-			document.getElementById("url").innerHTML = `   ${millisec}    ${baseURL}/endpoint1`
+			document.getElementById("url").innerHTML = `   ${millisec}    ${baseURL}/get_list_of_attention`
 		})
 
 	}
@@ -108,6 +141,12 @@
 	function tokenCancel() { 
 		alert("TODO tokenCancel")
 	}
+
+	function updateLocalStorage(article) {
+ 		localStorage.setItem('article', article);
+		document.getElementById("localstore").value = localStorage.getItem('article')
+	} 
+
 
 	</script>
 	<select id='userSelect' onchange="setToNewPerson()">
@@ -121,8 +160,10 @@
 	</select>
 
 
-	<button onClick=step1_login()>get token ( server X)</button>
-	<button onClick=tokenUse()>use token ( server Y)</button>
+	<button onClick=step1_login()>get token</button>
+	<button onClick=get_list_of_attention()>get_list_of_attention</button>
+	<button onClick=get_article_and_put_into_localstorage()>get_article_and_put_into_localstorage</button>
+
 	<button onClick=tokenRefresh()>refresh token (server X)</button>
 	<button onClick=tokenCancel()>login out (server Y)</button>
 	<button onClick=healthcheck()>healthcheck</button>
@@ -139,7 +180,21 @@
 		</tr>		
 
 	</table>
-    <textarea id='output' rows=40 cols=300 value=''></textarea>
+	<table  style="width:95%">
+		<tr>
+			<th>LAST RECCIEVED</th>
+			<th>CURRENT LOCAL STORE</th>
+		</tr>
+		<tr>
+			<td>
+				<textarea id='output' rows=20 style="width:100%" value=''></textarea>
+			</td>
+			<td>
+				<textarea id='localstore' rows=20  style="width:100%" value=''></textarea>
+			</td>
+		</tr>
+
+	</table>
 
 
 	<script>
@@ -149,6 +204,11 @@
 			document.getElementById("accessToken").innerHTML = "";
 			accessToken = undefined;
 			refreshToken = undefined;
+			if (localStorage.getItem("article") === null) {
+				updateLocalStorage("NOTHING HERE")
+			} else {
+				document.getElementById("localstore").value = localStorage.getItem('article')
+			} 
 		}
 		zeroout(); 
 	</script>

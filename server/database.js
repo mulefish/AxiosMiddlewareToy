@@ -78,5 +78,16 @@ function get_user(username) {
     return anonymous;
 }
 
+function get_fake_article() { 
+    const words = ["warm", "ocean", "sea", "wheel", "earth", "company", "hot!", "tasty", "elephant", "weasel", "otter", "Jupiter", "mud", "sky", "dirt", "wall", "foot", "moon", "ring", "car", "solid" ] 
+    const random_word1 = words[Math.floor(Math.random() * words.length)]
+    const random_word2 = words[Math.floor(Math.random() * words.length)]
+    const random_word3 = words[Math.floor(Math.random() * words.length)]
+    const random_word4 = words[Math.floor(Math.random() * words.length)]
+    const result = `${random_word1} ${random_word2} ${random_word3} ${random_word4}`
+    return result;
+}
 
-module.exports = get_user;
+
+
+module.exports = { get_user, get_fake_article } ;
