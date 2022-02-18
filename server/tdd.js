@@ -1,4 +1,5 @@
-const { get_user, get_fake_article } = require('./database.js');
+const { get_user, get_fake_article, encrypt } = require('./database.js');
+const crypto = require('crypto');
 
 const verdict = ( msg, a, b  ) => {
     if ( JSON.stringify(a) === JSON.stringify(b) ) {
@@ -30,11 +31,31 @@ function test_get_fake_article() {
     verdict("test_get_fake_article", actual, true );
 }
 
+function test_encrypt() { 
+    // 'Eeboo is dog' TO something like 'c4b50e895501386e33fe16f375d5f3cc'
+
+
+    const actual = encrypt("Eeboo is dog.")
+    let result = false
+    if ( actual.hasOwnProperty("iv") && actual.hasOwnProperty("encryptedData")) {
+        result = actual.encryptedData.length > 0 
+    }
+    verdict("test_encrypt", result, true );
+
+
+
+
+
+}
+
+
+
 const main=()=>{
     console.log("\n\n**********")
     test_get_named_user();
     test_get_unnamed_user();
     test_get_fake_article(); 
+    test_encrypt() 
     console.log("\n\n")
 }
 main()

@@ -75,3 +75,8 @@ Second off: Using the accessToken that step1_login set up!
 # Screen shot
 
 ![ScreenShot.png](ScreenShot.png "ScreenCap")
+
+# crypto
+
+var crypto = require('crypto');
+var mykey = crypto.createCipher('aes-128-cbc', 'mypassword');
