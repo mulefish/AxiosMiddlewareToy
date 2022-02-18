@@ -17,3 +17,7 @@ Go into the server directory - that is where the interesting stuff is.
 # Suggested video ( about 30 minutes )
 
 https://www.youtube.com/watch?v=mbsmsi7l3r4
+
+# STATUS
+
+DONE - It is a demo and it is good enough!
